@@ -1,5 +1,7 @@
 <?php
 
+namespace Videoclub\Modelos\Soportes;
+
 class CintaVideo extends Soporte {
     //---- ATRIBUTOS ----
     private int $duracion;

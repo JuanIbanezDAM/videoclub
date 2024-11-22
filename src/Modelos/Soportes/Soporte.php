@@ -1,5 +1,7 @@
 <?php
 
+namespace Videoclub\Modelos\Soportes;
+
 abstract class Soporte implements Resumible{
     //---- ATRIBUTOS ----
     protected int $id; //Guardará el numSoporte 
@@ -21,7 +23,7 @@ abstract class Soporte implements Resumible{
         return $this->precio;
     }
 
-    public function getNumero(): int {
+    public function getId(): int {
         return $this->id;
     }
 

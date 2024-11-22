@@ -1,5 +1,7 @@
 <?php
 
+namespace Videoclub\Modelos\Soportes;
+
 class Juego extends Soporte {
     //---- ATRIBUTOS ----
     public string $consola;

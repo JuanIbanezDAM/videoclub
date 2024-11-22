@@ -1,5 +1,7 @@
 <?php
 
+namespace Videoclub\Modelos\Soportes;
+
 class Dvd extends Soporte {
     //---- ATRIBUTOS ----
     public string $idiomas;
