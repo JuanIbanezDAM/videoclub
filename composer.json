@@ -1,0 +1,16 @@
+{
+    "name": "alumno/videoclub",
+    "description": "Intento de 0 tomandome más libertades para el proyecto Videoclub3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Alumno\\Videoclub\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "juan"
+        }
+    ],
+    "require": {}
+}
