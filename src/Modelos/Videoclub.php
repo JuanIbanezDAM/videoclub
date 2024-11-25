@@ -40,6 +40,12 @@ class Videoclub {
     public function getNumTotalAlquileres(): string {
         return $this->numTotalAlquileres;
     }
+    public function getProductos(): array {
+        return $this->productos;
+    }
+    public function getSocios(): array {
+        return $this->socios;
+    }
 
     //---- METODOS ----
     private function incluirProducto(Soporte $producto): bool {
@@ -65,9 +71,9 @@ class Videoclub {
     }
 
 
-    public function incluirSocio(string $nombre, int $maxAlquileresConcurrentes = 3): void {
+    public function incluirSocio(string $nombre, string $pass, int $maxAlquileresConcurrentes = 3): void {
         $this->numSocios++;
-        $socio = new Cliente($nombre, $maxAlquileresConcurrentes);
+        $socio = new Cliente($nombre, $pass, $maxAlquileresConcurrentes);
         array_push($this->socios, $socio);
     }
 

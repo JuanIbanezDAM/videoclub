@@ -12,20 +12,31 @@ class Cliente {
     protected int $id; // Guarda el numero del cliente
     protected int $numSoportesAlquilados = 0; // Guarda el numero de soportes que ha alquilado
     protected array $soportesAlquilados = []; // Guarda los soportes que ha alquilado
+    public string $user; // Nombre usuario
 
     protected static int $numClientes = 1; // Guarda el numero del cliente que se han creado
 
     //---- CONSTRUCTOR ----
     public function __construct(
         public string $nombre,
+        public string $pass, // Contraseña usuario
         protected int $maxAlquilerConcurrente = 3  // Guarda el numero maximo de soportes que puede alquilar
     ) {
+        $this->user = $this->nombre;
         $this->id = self::$numClientes++;
     }
 
     //---- GETTERS Y SETTERS ----
     public function getId(): int {
         return $this->id;
+    }
+
+    public function getUser(): string {
+        return $this->user;
+    }
+
+    public function getPassword(): string {
+        return $this->pass;
     }
 
     public function getSoportesAlquilados(): array {
@@ -69,14 +80,14 @@ class Cliente {
     public function devolver(int $numSoporte) {
 
         //Si coincide el numero del soporte dado con algún soporte alquilado.
-            foreach ($this->soportesAlquilados as $key => $soporte) {
-                if ($soporte->getId() === $numSoporte) {
-                    unset($this->soportesAlquilados[$key]); //Elimina el elemento que coincide en la clave (indice) del array;
-                    $this->numSoportesAlquilados--; // Disminuye el contador de soportes alquilados
-                    $soporte->alquilado = false;
-                    return $this; /* Permite el encadenamiento de metodos */
-                }
+        foreach ($this->soportesAlquilados as $key => $soporte) {
+            if ($soporte->getId() === $numSoporte) {
+                unset($this->soportesAlquilados[$key]); //Elimina el elemento que coincide en la clave (indice) del array;
+                $this->numSoportesAlquilados--; // Disminuye el contador de soportes alquilados
+                $soporte->alquilado = false;
+                return $this; /* Permite el encadenamiento de metodos */
             }
+        }
         ///Si no coincide el numero del soporte dado con algún soporte alquilado.
         throw new SoporteNoEncontradoException("Exception. Soporte no alquilado por el cliente.", 3);
     }
