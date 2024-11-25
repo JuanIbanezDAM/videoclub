@@ -1,6 +1,6 @@
 <?php
 
-namespace Videoclub\Models;
+namespace Videoclub\Modelos;
 
 use Videoclub\Modelos\Soportes\Soporte;
 use Videoclub\Excepciones\SoporteYaAlquiladoException;
@@ -43,7 +43,6 @@ class Cliente {
 
     public function tieneAlquilado(Soporte $soporte): bool {
         return isset($this->soportesAlquilado[$soporte]);
-        return false;
     }
 
 
@@ -71,7 +70,7 @@ class Cliente {
 
         //Si coincide el numero del soporte dado con algún soporte alquilado.
             foreach ($this->soportesAlquilados as $key => $soporte) {
-                if ($soporte->getNumero() === $numSoporte) {
+                if ($soporte->getId() === $numSoporte) {
                     unset($this->soportesAlquilados[$key]); //Elimina el elemento que coincide en la clave (indice) del array;
                     $this->numSoportesAlquilados--; // Disminuye el contador de soportes alquilados
                     $soporte->alquilado = false;
@@ -87,7 +86,7 @@ class Cliente {
      */
     public function listaAlquileres(): void {
         foreach ($this->soportesAlquilados as $elemento) {
-            echo "id: " . $elemento->getNumero() . " | " . $elemento->muestraResumen();
+            echo "id: " . $elemento->getId() . " | " . $elemento->muestraResumen();
             echo "<br>";
         }
     }
