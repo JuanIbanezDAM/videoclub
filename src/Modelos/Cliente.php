@@ -66,7 +66,7 @@ class Cliente {
 
     //---- METODOS ----
     public function muestraResumen(): string {
-        return  "Nombre: $this->nombre Cantidad de alquileres: " . count($this->soportesAlquilados);
+        return  "Nombre: $this->nombre Cantidad de alquileres: " . count($this->soportesAlquilados) . " id: " . $this->getId();
     }
 
     public function tieneAlquilado(Soporte $soporte): bool {

@@ -1,8 +1,5 @@
 <?php
 
-use Videoclub\Modelos\Cliente;
-use Videoclub\Modelos\Videoclub;
-
 //Autoload
 require_once realpath('../vendor/autoload.php');
 
