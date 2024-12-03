@@ -1,11 +1,5 @@
 <?php
 
-use Videoclub\Modelos\Cliente;
-use Videoclub\Modelos\Videoclub;
-use Videoclub\Modelos\Soportes\CintaVideo;
-use Videoclub\Modelos\Soportes\Dvd;
-use Videoclub\Modelos\Soportes\Juego;
-
 require_once realpath('../vendor/autoload.php');
 
 if (!isset($_SESSION)) {
@@ -37,8 +31,9 @@ $usuario = $_SESSION['sesion_usuario'];
 
     <h1>Pagina principal!!!!</h1>
     <p>Bienvenido <?php echo $usuario->nombre; ?>, para cerrar sesion pulse aqui  <a href="logout.php">cerrar sesion.</a></p>
-    <p><a href="logout.php">crear usuario</a></p>
-    <p><a href="logout.php">editar usuario</a></p>
+    <p><a href="logout.php">cerrar sesion</a></p>
+    <p><a href="formCreateCliente.php">crear usuario</a></p>
+    <p><a href="formCreateCliente.php">editar usuario</a></p>
     <p><a href="logout.php">eliminar usuario</a></p>
 
     <?php
