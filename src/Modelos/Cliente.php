@@ -19,7 +19,7 @@ class Cliente {
     //---- CONSTRUCTOR ----
     public function __construct(
         public string $nombre,
-        public string $pass, // Contraseña usuario
+        protected string $pass, // Contraseña usuario
         protected int $maxAlquilerConcurrente = 3  // Guarda el numero maximo de soportes que puede alquilar
     ) {
         $this->user = $this->nombre;
@@ -46,6 +46,23 @@ class Cliente {
     public function getNumSoportesAlquilados(): int {
         return $this->id;
     }
+
+    public function getMaxAlquilerConcurrente(): int {
+        return $this->maxAlquilerConcurrente;
+    }
+
+    public function setUser(string $user): void {
+        $this->user = $user;
+    }
+
+    public function setMaxAlquilerConcurrente(int $maxAlquileres): void {
+        $this->maxAlquilerConcurrente = $maxAlquileres;
+    }
+
+    public function setPassword(string $pass): void {
+        $this->pass = $pass;
+    }
+
 
     //---- METODOS ----
     public function muestraResumen(): string {

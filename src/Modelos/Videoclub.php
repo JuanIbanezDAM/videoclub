@@ -16,9 +16,9 @@ use Videoclub\Excepciones\SoporteNoEncontradoException;
 
 class Videoclub {
     //---- ATRIBUTOS ----
-    private array $productos = []; 
+    private array $productos = [];
     private int $numProductos = 0;
-    private array $socios = []; 
+    private array $socios = [];
     private int $numSocios = 0;
 
     public int $numProductosAlquilados = 0; // Count de productos alquilados    / alquilados = true 
@@ -58,13 +58,13 @@ class Videoclub {
         $this->incluirProducto($soporte);
     }
 
- 
+
     public function incluirDvd(string $titulo, float $precio, string $idiomas, string $pantalla): void {
         $soporte =  new Dvd($titulo, $precio, $idiomas, $pantalla);
         $this->incluirProducto($soporte);
     }
 
-   
+
     public function incluirJuego(string $titulo, float $precio, string $consola, int $minJ, int $maxJ): void {
         $soporte =  new Juego($titulo, $precio, $consola, $minJ, $maxJ);
         $this->incluirProducto($soporte);
@@ -91,7 +91,7 @@ class Videoclub {
         }
         echo "<br>";
     }
-   
+
 
     public function alquilaSocioProducto(int $numeroCliente, int $numeroSoporte) {
 
@@ -113,7 +113,7 @@ class Videoclub {
                             echo  $e->getMessage();
                         } catch (Exception $e) {
                             echo  $e->getMessage();
-                        } 
+                        }
                         $this->actualizarNumAlquilados();
                         return $this; /* Permite el encadenamiento de metodos */
                     }
@@ -140,7 +140,7 @@ class Videoclub {
                             echo  $e->getMessage();
                         } catch (Exception $e) {
                             echo  $e->getMessage();
-                        } 
+                        }
                         $this->actualizarNumAlquilados();
                         return $this; /* Permite el encadenamiento de metodos */
                     }
@@ -149,11 +149,24 @@ class Videoclub {
         }
     }
 
-    public function actualizarNumAlquilados() {
+    public function actualizarNumAlquilados(): void {
         // Para buscar elementos en un array es mas recomendado usar array_filter que recorrerlo con un foreach
         //Count de productos alquilados    / alquilados = true 
         $this->numProductosAlquilados = count(array_filter($this->productos, fn($producto) => $producto->alquilado));
         //Count de productos poralquilar    / alquilados = false 
         $this->numTotalAlquileres = count(array_filter($this->productos, fn($producto) => !$producto->alquilado));
+    }
+
+    public function eliminarSocio(int $id): void {
+        $this->socios = array_filter($this->socios, fn($socio) => $socio != $id);
+    }
+    public function editarSocio(int $id, string $user, string $pass, string $maxAlquileres): void {
+        foreach ($this->socios as $usuario) {
+            if ($usuario->getId() == $id) {
+                $usuario->setUser($user);
+                $usuario->setPassword($pass);
+                $usuario->setMaxAlquilerConcurrente($maxAlquileres);
+            }
+        }
     }
 }

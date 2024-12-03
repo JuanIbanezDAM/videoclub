@@ -30,7 +30,7 @@ $usuario = $_SESSION['sesion_usuario'];
     <p>Bienvenido <?php echo $usuario->nombre; ?>, para cerrar sesion pulse aqui <a href="logout.php">cerrar sesion.</a></p>
 
     <!-- Opciones del usuario -->
-    <p><a href="logout.php">editar usuario</a></p>
+    <p><a href="formUpdateCliente.php">editar usuario</a></p>
 
     <!-- Mostrar la lista de alquileres edl cliente -->
     <?php
