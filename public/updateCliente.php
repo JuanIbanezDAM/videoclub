@@ -18,9 +18,9 @@ if (isset($_POST["actualizar"])) {
 
     // Cargar la sesion del videoclub y añadir el nuevo socio a la sesion 
     session_start();
-    $id = $_SESSION['sesion_usuario']->getId();
+    $currentUsuario = $_SESSION['sesion_usuario'];
     $vc = $_SESSION['sesion_videoclub'];
-    $vc->editarSocio($id, $nombre, $pass, $maxAlquileres);
+    $vc->editarSocio($currentUsuario, $nombre, $pass, $maxAlquileres);
     $_SESSION['sesion_videoclub'] =  $vc;
 
     // Regiridir a mainAdmin

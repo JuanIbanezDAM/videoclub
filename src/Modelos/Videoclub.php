@@ -160,10 +160,12 @@ class Videoclub {
     public function eliminarSocio(int $id): void {
         $this->socios = array_filter($this->socios, fn($socio) => $socio != $id);
     }
-    public function editarSocio(int $id, string $user, string $pass, string $maxAlquileres): void {
+
+    //Editar userName password y numAlquileres de un usuario.
+    public function editarSocio(Cliente $currentUsuario, string $nombre, string $pass, string $maxAlquileres): void {
         foreach ($this->socios as $usuario) {
-            if ($usuario->getId() == $id) {
-                $usuario->setUser($user);
+            if ($usuario->getUser() == $currentUsuario->getUser() && $usuario->getPassword() == $currentUsuario->getPassword()) {
+                $usuario->setUser($nombre);
                 $usuario->setPassword($pass);
                 $usuario->setMaxAlquilerConcurrente($maxAlquileres);
             }

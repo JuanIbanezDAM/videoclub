@@ -26,7 +26,7 @@
         </p>
         <p>
             <label for="maxAlquileres">Nº alquileres máximo</label>
-            <input type="number" name="maxAlquileres" min=1 max=3 vaule=3>
+            <input type="number" name="maxAlquileres" min=1 max=3 value=3>
         </p>
         <p>
             <input type="submit" name="crear" value="crear">

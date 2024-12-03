@@ -66,7 +66,7 @@ class Cliente {
 
     //---- METODOS ----
     public function muestraResumen(): string {
-        return  "Nombre: $this->nombre Cantidad de alquileres: " . count($this->soportesAlquilados) . " id: " . $this->getId();
+        return  "Nombre: $this->nombre Cantidad de alquileres: " . count($this->soportesAlquilados) . " id: " . $this->getId() . $this->getUser() . ", " . $this->getPassword();
     }
 
     public function tieneAlquilado(Soporte $soporte): bool {
@@ -75,7 +75,6 @@ class Cliente {
 
 
     public function alquilar(Soporte $soporte) {
-
         // Verifica si el soporte ya está alquilado
         if ($this->tieneAlquilado($soporte)) {
             throw new SoporteYaAlquiladoException("Exception. El soporte ya está alquilado.", 4);
@@ -95,7 +94,6 @@ class Cliente {
 
 
     public function devolver(int $numSoporte) {
-
         //Si coincide el numero del soporte dado con algún soporte alquilado.
         foreach ($this->soportesAlquilados as $key => $soporte) {
             if ($soporte->getId() === $numSoporte) {
@@ -109,9 +107,6 @@ class Cliente {
         throw new SoporteNoEncontradoException("Exception. Soporte no alquilado por el cliente.", 3);
     }
 
-    /**
-     * This PHP function iterates over rented items and displays their ID and a summary.
-     */
     public function listaAlquileres(): void {
         foreach ($this->soportesAlquilados as $elemento) {
             echo "id: " . $elemento->getId() . " | " . $elemento->muestraResumen();
