@@ -1,17 +1,15 @@
 <?php
 
-namespace Util;
+namespace Videoclub\Excepciones;
 
-use Exception;
 
 class SoporteNoEncontradoException extends VideoclubException {
 
     public function __construct(
         protected $mensaje,
         protected $codigo = 0,
-        Exception $e = null
     ) {
-        parent::__construct($mensaje, $codigo, $e);
+        parent::__construct($mensaje, $codigo);
     }
 
     public function __toString(): string {
