@@ -1,7 +1,9 @@
 
 <?php
-// Recuperamos la información de la sesión
+
+// Recuperar la sesión
 session_start();
-// Y la destruimos
-session_destroy();
+
+// Destruir la sesion y redirigir al formulario
+unset($_SESSION['sesion_usuario']);
 header("Location: index.php");

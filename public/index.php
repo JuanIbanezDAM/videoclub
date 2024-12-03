@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,18 +8,20 @@
 </head>
 
 <body>
+
+    <!-- Mensaje de error al iniciar sesion -->
+    <div><span><?php echo $error ?? ""; ?></span></div>
+
+    <!-- Formulario de inicio de sesion -->
     <form action="login.php" method="post">
         <div>
-            <div><span><?php echo $error ?? ""; ?></span></div>
             <label for="usuario">Usuario: </label>
             <input type="text" name="usuario">
         </div>
-
         <div>
             <label for="pass">Contraseña: </label>
             <input type="password" name="pass">
         </div>
-
         <div>
             <input type="submit" name="enviar" value="enviar">
         </div>

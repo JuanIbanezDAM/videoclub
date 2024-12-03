@@ -5,9 +5,8 @@ use Videoclub\Modelos\Videoclub;
 //Autoload
 require_once realpath('../vendor/autoload.php');
 
-// Cargar lista usuarios o crear una vacia.
+// Cargar la sesion del videoclub o crear una vacia.
 session_start();
-
 if (empty($_SESSION['sesion_videoclub'])) {
     $vc = new Videoclub("miVideo");
     $vc->incluirSocio("admin", "admin");
@@ -29,7 +28,7 @@ if (isset($_POST["enviar"])) {
         exit;
     }
 
-    // Comprobar las credenciales con la lista de socios
+    // Comprobar las credenciales con la lista de socios del videoclub
     $socioEncontrado = null;
     foreach ($vc->getSocios() as $socio) {
         if ($socio->getUser() === $usuario && $socio->getPassword() === $pass) {
@@ -38,7 +37,7 @@ if (isset($_POST["enviar"])) {
         }
     }
 
-    // Redirigir según el rol o mostrar error
+    // Redirigir a mainAdmin, mainUsuario o mostrar error
     if ($socioEncontrado) {
         session_start();
         $_SESSION['sesion_usuario'] = $socioEncontrado;
@@ -53,4 +52,3 @@ if (isset($_POST["enviar"])) {
         include "index.php";
     }
 }
-

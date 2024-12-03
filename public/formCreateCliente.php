@@ -1,10 +1,3 @@
-<?php
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +8,13 @@ if (!isset($_SESSION)) {
 </head>
 
 <body>
+    <!-- Titulo de la página -->
     <h1>Formulario de creación de usuario</h1>
+
+    <!-- Mensaje de error al iniciar sesion -->
+    <div><span><?php echo $error ?? ""; ?></span></div>
+
+    <!-- Formulario de creacion de cliente-->
     <form action="createCliente.php" method="post">
         <p>
             <label for="nombre">Nombre</label>
