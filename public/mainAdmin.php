@@ -36,7 +36,7 @@ $usuario = $_SESSION['sesion_usuario'];
     <!-- Opciones del administrador -->
     <p><a href="formCreateCliente.php">crear usuario</a></p>
     <p><a href="formUpdateCliente.php">editar usuario</a></p>
-    <button id="btonDeleteCliente">eliminar usuario</button>
+    <p><a href="#" id="btonDeleteCliente">eliminar usuario</a></p>
 
     <!-- Mostrar información de todos los productos y clientes -->
     <?php

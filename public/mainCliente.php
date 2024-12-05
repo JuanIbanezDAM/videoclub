@@ -34,13 +34,14 @@ $usuario = $_SESSION['sesion_usuario'];
 
     <!-- Opciones del usuario -->
     <p><a href="formUpdateCliente.php">editar usuario</a></p>
-    <button id="btonDeleteCliente">eliminar usuario</button>
+    <p><a href="#" id="btonDeleteCliente">eliminar usuario</a></p>
 
-    <!-- Mostrar la lista de alquileres edl cliente -->
+    <!-- Mostrar la lista de alquileres del cliente -->
     <?php
     echo "Lista de productos alquilados: " . "<br>";
     $usuario->listaAlquileres();
     ?>
+
 
     <!-- Script que lanza una alerta de confirmacion para eliminar un cliente -->
     <script>
