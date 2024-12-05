@@ -157,8 +157,8 @@ class Videoclub {
         $this->numTotalAlquileres = count(array_filter($this->productos, fn($producto) => !$producto->alquilado));
     }
 
-    public function eliminarSocio(int $id): void {
-        $this->socios = array_filter($this->socios, fn($socio) => $socio != $id);
+    public function eliminarSocio(Cliente $currentUsuario): void {
+        $this->socios = array_filter($this->socios, fn($usuario) => $usuario->getUser() != $currentUsuario->getUser() || $usuario->getPassword() != $currentUsuario->getPassword());
     }
 
     //Editar userName password y numAlquileres de un usuario.
