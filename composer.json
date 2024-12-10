@@ -1,7 +1,10 @@
 {
     "name": "alumno/videoclub",
-    "description": "Intento de 0 tomandome más libertades para el proyecto Videoclub3",
+    "description": "Proyecto de Videoclub para la asignatura desarrollo de aplicaciones en entorno servidor",
     "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
     "autoload": {
         "psr-4": {
             "Videoclub\\": "src/"
@@ -12,5 +15,7 @@
             "name": "juan"
         }
     ],
-    "require": {}
+    "require": {
+        "monolog/monolog": "^3.8"
+    }
 }

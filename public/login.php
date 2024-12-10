@@ -5,7 +5,7 @@ use Videoclub\Modelos\Videoclub;
 //Autoload
 require_once realpath('../vendor/autoload.php');
 
-// Cargar la sesion del videoclub o crear una vacia.
+// Cargar la sesion del videoclub o si no existe, crear una vacia con admin y usuario.
 session_start();
 if (empty($_SESSION['sesion_videoclub'])) {
     $vc = new Videoclub("miVideo");
@@ -29,7 +29,7 @@ if (isset($_POST["enviar"])) {
     }
 
     // Comprobar las credenciales con la lista de socios del videoclub
-    $socioEncontrado = null;
+    $socioEncontrado = null; // Si algun usuario coincide lo guardaremos en esta variable
     foreach ($vc->getSocios() as $socio) {
         if ($socio->getUser() === $usuario && $socio->getPassword() === $pass) {
             $socioEncontrado = $socio;
@@ -39,14 +39,16 @@ if (isset($_POST["enviar"])) {
 
     // Redirigir a mainAdmin, mainUsuario o mostrar error
     if ($socioEncontrado) {
+        // Crear la sesion del usuario y guardar sus datos
         session_start();
         $_SESSION['sesion_usuario'] = $socioEncontrado;
+
         if ($socioEncontrado->getUser() === "admin") {
             header("Location: mainAdmin.php");
         } else {
             header("Location: mainCliente.php");
         }
-        exit;
+
     } else {
         $error = "Usuario o contraseña incorrectos.";
         include "index.php";
