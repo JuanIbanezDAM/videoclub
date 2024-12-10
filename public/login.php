@@ -11,6 +11,7 @@ if (empty($_SESSION['sesion_videoclub'])) {
     $vc = new Videoclub("miVideo");
     $vc->incluirSocio("admin", "admin");
     $vc->incluirSocio("usuario", "usuario");
+    $vc->incluirCintaVideo("Los cazafantasmas", 3.5, 107);
     $_SESSION['sesion_videoclub'] = $vc;
 } else {
     $vc = $_SESSION['sesion_videoclub'];
@@ -48,7 +49,6 @@ if (isset($_POST["enviar"])) {
         } else {
             header("Location: mainCliente.php");
         }
-
     } else {
         $error = "Usuario o contraseña incorrectos.";
         include "index.php";

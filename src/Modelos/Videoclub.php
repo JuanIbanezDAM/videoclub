@@ -24,6 +24,7 @@ class Videoclub {
     public int $numProductosAlquilados = 0; // Count de productos alquilados    / alquilados = true 
     public int $numTotalAlquileres = 0; // Count de productos por alquilar      / alquilados = false 
 
+    
     //---- CONSTRUCTOR ----
     public function __construct(
         private string $nombre,

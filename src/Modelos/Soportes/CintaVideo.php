@@ -17,6 +17,7 @@ class CintaVideo extends Soporte {
     //---- METODOS ----
     public function muestraResumen(): string {
         parent::muestraResumen();
+        /* echo "$this->titulo , Precio: " . $this->getPrecio() . ", Precio IVA incluido: " . $this->getPrecioConIva() . ", Duración: $this->duracion"; */
         return "$this->titulo , Precio: " . $this->getPrecio() . ", Precio IVA incluido: " . $this->getPrecioConIva() . ", Duración: $this->duracion";
     }
 }
