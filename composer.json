@@ -5,6 +5,9 @@
     "require-dev": {
         "phpunit/phpunit": "^11.5"
     },
+    "scripts": {
+        "test": "phpunit --testdox --colors tests"
+    },
     "autoload": {
         "psr-4": {
             "Videoclub\\": "src/"

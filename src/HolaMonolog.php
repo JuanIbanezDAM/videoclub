@@ -1,7 +1,7 @@
 <?php
 
-//Autoload
-require_once realpath('../vendor/autoload.php');
+//namespace
+namespace Videoclub;
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
@@ -12,6 +12,7 @@ class HolaMonolog {
 
     //Atributos
     private int $hora;
+    private array $ultimosSaludos = [];
     private Logger $miLog;
 
     //Constructor
@@ -38,23 +39,35 @@ class HolaMonolog {
     }
 
     function setHora(int $hora): void {
-        //Validar si la hora es inferior a 0 o mayor de 24
         if ($hora < 0 || $hora > 24) {
-            $this->miLog->warning("La hora proporcionada ($hora) no es válida. Debe estar entre 0 y 24.");
-            $this->hora = 0; // Asignar una hora por defecto en caso de error
-        } else {
-            $this->hora = $hora;
+            throw new \InvalidArgumentException("La hora proporcionada ($hora) no es válida. Debe estar entre 0 y 24.");
         }
+        $this->hora = $hora;
+    }
+
+    public function getUltimosSaludos(): array {
+        return $this->ultimosSaludos;
     }
 
 
     //Metodos
-    public function saludar(): void {
-        $this->miLog->info('Saludando:  ' .  $this->getSaludo());
+    public function saludar(): string {
+        $saludo = $this->getSaludo();
+        $this->miLog->info('Saludando: ' . $saludo);
+
+        // Almacenar el saludo y mantener solo los últimos tres
+        $this->ultimosSaludos[] = $saludo;
+        if (count($this->ultimosSaludos) > 3) {
+            array_shift($this->ultimosSaludos);
+        }
+
+        return $saludo;
     }
 
-    public function despedir(): void {
-        $this->miLog->info('Despidiéndose: ' .  $this->getDespedida());
+    public function despedir(): string {
+        $despedida = $this->getDespedida();
+        $this->miLog->info('Despidiéndose: ' . $despedida);
+        return $despedida;
     }
 
     private function getSaludo(): string {

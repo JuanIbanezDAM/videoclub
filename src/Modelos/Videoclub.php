@@ -3,16 +3,16 @@
 namespace Videoclub\Modelos;
 
 use Videoclub\Modelos\Cliente;
-
 use Videoclub\Modelos\Soportes\Soporte;
 use Videoclub\Modelos\Soportes\CintaVideo;
 use Videoclub\Modelos\Soportes\Dvd;
 use Videoclub\Modelos\Soportes\Juego;
-
 use Exception;
 use Videoclub\Excepciones\SoporteYaAlquiladoException;
 use Videoclub\Excepciones\CupoSuperadoException;
 use Videoclub\Excepciones\SoporteNoEncontradoException;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Videoclub {
     //---- ATRIBUTOS ----
@@ -21,13 +21,17 @@ class Videoclub {
     private array $socios = [];
     private int $numSocios = 0;
 
-    public int $numProductosAlquilados = 0; // Count de productos alquilados    / alquilados = true 
-    public int $numTotalAlquileres = 0; // Count de productos por alquilar      / alquilados = false 
+    public int $numProductosAlquilados = 0; // Count de productos alquilados
+    public int $numTotalAlquileres = 0; // Count de productos por alquilar
+
+    private Logger $logger;
 
     //---- CONSTRUCTOR ----
     public function __construct(
         private string $nombre,
     ) {
+        $this->logger = new Logger('VideoclubLogger');
+        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../../logs/videoclub.log', Logger::DEBUG));
     }
 
     //---- GETTERS Y SETTERS ----
@@ -50,7 +54,8 @@ class Videoclub {
     //---- METODOS ----
     private function incluirProducto(Soporte $producto): bool {
         $this->numProductos++;
-        return  array_push($this->productos, $producto);
+        $this->logger->info('Producto incluido', ['producto' => $producto]);
+        return array_push($this->productos, $producto);
     }
 
     public function incluirCintaVideo(string $titulo, float $precio, int $duracion): void {
@@ -58,64 +63,57 @@ class Videoclub {
         $this->incluirProducto($soporte);
     }
 
-
     public function incluirDvd(string $titulo, float $precio, string $idiomas, string $pantalla): void {
         $soporte =  new Dvd($titulo, $precio, $idiomas, $pantalla);
         $this->incluirProducto($soporte);
     }
-
 
     public function incluirJuego(string $titulo, float $precio, string $consola, int $minJ, int $maxJ): void {
         $soporte =  new Juego($titulo, $precio, $consola, $minJ, $maxJ);
         $this->incluirProducto($soporte);
     }
 
-
     public function incluirSocio(string $nombre, string $pass, int $maxAlquileresConcurrentes = 3): void {
         $this->numSocios++;
         $socio = new Cliente($nombre, $pass, $maxAlquileresConcurrentes);
-        array_push($this->socios, $socio);
+        $this->socios[] = $socio;
+        $this->logger->info('Socio incluido', ['socio' => $socio]);
     }
 
-
     public function listarProductos(): void {
-        foreach ($this->productos as $key => $producto) {
+        foreach ($this->productos as $producto) {
+            $this->logger->info('Listando producto', ['producto' => $producto]);
             echo $producto->muestraResumen() . "<br>";
         }
-        echo "<br>";
     }
 
     public function listarSocios(): void {
-        foreach ($this->socios as $key => $socio) {
+        foreach ($this->socios as $socio) {
+            $this->logger->info('Listando socio', ['socio' => $socio]);
             echo $socio->muestraResumen() . "<br>";
         }
-        echo "<br>";
     }
 
-
     public function alquilaSocioProducto(int $numeroCliente, int $numeroSoporte) {
-
-        /* Si existe el numero del socio */
-        foreach ($this->socios as $key => $socio) {
+        foreach ($this->socios as $socio) {
             if ($socio->getId() === $numeroCliente) {
-
-                /* Si existe el numero del producto */
-                foreach ($this->productos as $key => $producto) {
+                foreach ($this->productos as $producto) {
                     if ($producto->getId() === $numeroSoporte) {
-
-                        /* El socio intenta alquilar el producto */
                         try {
                             $socio->alquilar($producto);
-                            /* echo $socio->nombre . " ha alquilado " . $producto->titulo . " exitosamente."; */
+                            $this->logger->info('Producto alquilado', ['socio' => $socio, 'producto' => $producto]);
                         } catch (SoporteYaAlquiladoException $e) {
-                            echo  $e->getMessage();
+                            $this->logger->warning($e->getMessage(), ['socio' => $socio, 'producto' => $producto]);
+                            throw $e;
                         } catch (CupoSuperadoException $e) {
-                            echo  $e->getMessage();
+                            $this->logger->warning($e->getMessage(), ['socio' => $socio]);
+                            throw $e;
                         } catch (Exception $e) {
-                            echo  $e->getMessage();
+                            $this->logger->warning($e->getMessage(), ['socio' => $socio, 'producto' => $producto]);
+                            throw $e;
                         }
                         $this->actualizarNumAlquilados();
-                        return $this; /* Permite el encadenamiento de metodos */
+                        return;
                     }
                 }
             }
@@ -123,26 +121,22 @@ class Videoclub {
     }
 
     public function devolverSocioProducto(int $numeroCliente, int $numeroSoporte) {
-
-        /* Si existe el numero del socio */
-        foreach ($this->socios as $key => $socio) {
+        foreach ($this->socios as $socio) {
             if ($socio->getId() === $numeroCliente) {
-
-                /* Si existe el numero del producto */
-                foreach ($this->productos as $key => $producto) {
+                foreach ($this->productos as $producto) {
                     if ($producto->getId() === $numeroSoporte) {
-
-                        /* El socio intenta alquilar el producto */
                         try {
                             $socio->devolver($producto->getId());
-                            /* echo $socio->nombre . " ha devuelto " . $producto->titulo . " exitosamente."; */
+                            $this->logger->info('Producto devuelto', ['socio' => $socio, 'producto' => $producto]);
                         } catch (SoporteNoEncontradoException $e) {
-                            echo  $e->getMessage();
+                            $this->logger->warning($e->getMessage(), ['socio' => $socio, 'producto' => $producto]);
+                            throw $e;
                         } catch (Exception $e) {
-                            echo  $e->getMessage();
+                            $this->logger->warning($e->getMessage(), ['socio' => $socio, 'producto' => $producto]);
+                            throw $e;
                         }
                         $this->actualizarNumAlquilados();
-                        return $this; /* Permite el encadenamiento de metodos */
+                        return;
                     }
                 }
             }
@@ -150,24 +144,26 @@ class Videoclub {
     }
 
     public function actualizarNumAlquilados(): void {
-        // Para buscar elementos en un array es mas recomendado usar array_filter que recorrerlo con un foreach
-        //Count de productos alquilados    / alquilados = true 
         $this->numProductosAlquilados = count(array_filter($this->productos, fn($producto) => $producto->alquilado));
-        //Count de productos poralquilar    / alquilados = false 
         $this->numTotalAlquileres = count(array_filter($this->productos, fn($producto) => !$producto->alquilado));
+        $this->logger->info('Números de alquileres actualizados', [
+            'numProductosAlquilados' => $this->numProductosAlquilados,
+            'numTotalAlquileres' => $this->numTotalAlquileres
+        ]);
     }
 
     public function eliminarSocio(Cliente $currentUsuario): void {
         $this->socios = array_filter($this->socios, fn($usuario) => $usuario->getUser() != $currentUsuario->getUser() || $usuario->getPassword() != $currentUsuario->getPassword());
+        $this->logger->info('Socio eliminado', ['socio' => $currentUsuario]);
     }
 
-    //Editar userName password y numAlquileres de un usuario.
     public function editarSocio(Cliente $currentUsuario, string $nombre, string $pass, string $maxAlquileres): void {
         foreach ($this->socios as $usuario) {
             if ($usuario->getUser() == $currentUsuario->getUser() && $usuario->getPassword() == $currentUsuario->getPassword()) {
                 $usuario->setUser($nombre);
                 $usuario->setPassword($pass);
                 $usuario->setMaxAlquilerConcurrente($maxAlquileres);
+                $this->logger->info('Socio editado', ['socio' => $usuario]);
             }
         }
     }
