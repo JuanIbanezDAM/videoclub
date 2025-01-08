@@ -10,7 +10,9 @@ use Videoclub\Excepciones\CupoSuperadoException;
 use Videoclub\Excepciones\SoporteNoEncontradoException;
 
 use Monolog\Logger;
-use Videoclub\Util\LogFactory;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\StreamHandler;
+
 class Cliente {
     //---- ATRIBUTOS ----
     protected int $id; // Guarda el numero del cliente
@@ -28,7 +30,10 @@ class Cliente {
         protected int $maxAlquilerConcurrente = 3,  // Guarda el numero maximo de soportes que puede alquilar
         string $canal = "VideoclubLogger"
     ) {
-        $this->log = LogFactory::getLogger($canal);
+        $this->log = new Logger($canal);
+        // Manejador que escribe en un archivo
+        $this->log->pushHandler(new RotatingFileHandler("../logs/cliente.log", 0, Logger::DEBUG));
+
 
         // Manejador que escribe en un archivo
         $this->user = $this->nombre;

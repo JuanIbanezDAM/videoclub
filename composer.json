@@ -6,8 +6,8 @@
         "phpunit/phpunit": "^11.5"
     },
     "scripts": {
-        "test": "phpunit test",
-        "coverage": "phpunit --coverage-html coverage --coverage-filter app test"
+        "test": "phpunit --testdox --colors test",
+        "coverage": "phpunit --coverage-html coverage --coverage-filter src test"
     },
     "autoload": {
         "psr-4": {

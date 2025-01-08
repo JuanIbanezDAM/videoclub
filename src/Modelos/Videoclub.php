@@ -29,7 +29,7 @@ class Videoclub {
     public int $numProductosAlquilados = 0; // Count de productos alquilados    / alquilados = true 
     public int $numTotalAlquileres = 0; // Count de productos por alquilar      / alquilados = false 
 
-    
+
     //---- CONSTRUCTOR ----
     public function __construct(
         private string $nombre,
@@ -39,7 +39,6 @@ class Videoclub {
 
         // Manejador que escribe en un archivo
         $this->miLog->pushHandler(new RotatingFileHandler("../logs/videoclub.log", 0, Logger::DEBUG));
-
     }
 
     //---- GETTERS Y SETTERS ----
