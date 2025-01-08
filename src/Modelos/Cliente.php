@@ -2,6 +2,7 @@
 
 namespace Videoclub\Modelos;
 
+
 use Videoclub\Modelos\Soportes\Soporte;
 
 use Videoclub\Excepciones\SoporteYaAlquiladoException;
@@ -9,16 +10,14 @@ use Videoclub\Excepciones\CupoSuperadoException;
 use Videoclub\Excepciones\SoporteNoEncontradoException;
 
 use Monolog\Logger;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Handler\StreamHandler;
-
+use Videoclub\Util\LogFactory;
 class Cliente {
     //---- ATRIBUTOS ----
     protected int $id; // Guarda el numero del cliente
     protected int $numSoportesAlquilados = 0; // Guarda el numero de soportes que ha alquilado
     protected array $soportesAlquilados = []; // Guarda los soportes que ha alquilado
     public string $user; // Nombre usuario
-    private Logger $miLog;
+    private Logger $log;
 
     protected static int $numClientes = 1; // Guarda el numero del cliente que se han creado
 
@@ -29,11 +28,9 @@ class Cliente {
         protected int $maxAlquilerConcurrente = 3,  // Guarda el numero maximo de soportes que puede alquilar
         string $canal = "VideoclubLogger"
     ) {
-        $this->miLog = new Logger($canal);
+        $this->log = LogFactory::getLogger($canal);
 
         // Manejador que escribe en un archivo
-        $this->miLog->pushHandler(new RotatingFileHandler("../../logs/videoclub.log", 0, Logger::DEBUG));
-
         $this->user = $this->nombre;
         $this->id = self::$numClientes++;
     }
@@ -89,12 +86,12 @@ class Cliente {
     public function alquilar(Soporte $soporte) {
         // Verifica si el soporte ya está alquilado
         if ($this->tieneAlquilado($soporte)) {
-            $this->miLog->warning("Exception. El soporte ya está alquilado.");
+            $this->log->warning("id:" . $this->getId() . ", usuario:" . $this->getUser() . " Exception. El soporte ya está alquilado.");
             throw new SoporteYaAlquiladoException("Exception. El soporte ya está alquilado.", 4);
         }
         // Verifica si se ha superado el cupo de alquileres
         else if (count($this->soportesAlquilados) >= $this->maxAlquilerConcurrente) {
-            $this->miLog->warning("Exception. Se ha superado el límite de alquileres concurrentes.");
+            $this->log->warning("id:" . $this->getId() . ", usuario:" . $this->getUser() . " Exception. Se ha superado el límite de alquileres concurrentes.");
             throw new CupoSuperadoException("Exception. Se ha superado el límite de alquileres concurrentes.", 2);
         }
         // Si no hay problemas, alquila el soporte
@@ -117,7 +114,7 @@ class Cliente {
                 return $this; /* Permite el encadenamiento de metodos */
             }
         }
-        $this->miLog->warning("Exception. Soporte no alquilado por el cliente.");
+        $this->log->warning("id:" . $this->getId() . ", usuario:" . $this->getUser() . " Exception. Soporte no alquilado por el cliente.");
         ///Si no coincide el numero del soporte dado con algún soporte alquilado.
         throw new SoporteNoEncontradoException("Exception. Soporte no alquilado por el cliente.", 3);
     }

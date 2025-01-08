@@ -7,6 +7,7 @@ use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\IntrospectionProcessor;
+include_once ("../util/LogFactory.php");
 
 class HolaMonolog {
 
@@ -15,9 +16,9 @@ class HolaMonolog {
     private Logger $miLog;
 
     //Constructor
-    public function __construct(int $hora) {
+    public function __construct(int $hora, $canal = "HolaMonolog") {
 
-        $this->miLog = new Logger("HolaMonolog");
+        $this->miLog = LogFactory::getLogger($canal);
 
         // Manejador que escribe en un archivo
         $this->miLog->pushHandler(new RotatingFileHandler("./holaMonolog.log", 300, Logger::DEBUG));

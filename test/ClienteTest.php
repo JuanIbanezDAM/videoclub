@@ -9,6 +9,7 @@ use Videoclub\Modelos\Cliente;
 use Videoclub\Modelos\Soportes\CintaVideo;
 
 use Videoclub\Excepciones\CupoSuperadoException;
+use Videoclub\Excepciones\SoporteYaAlquiladoException;
 
 
 class ClienteTest extends TestCase {
@@ -27,5 +28,15 @@ class ClienteTest extends TestCase {
 
         $this->expectException(CupoSuperadoException::class);
         $cliente->alquilar($cinta3);
+    }
+
+    public function testSoporteYaAlquilado() {
+        $cliente = new Cliente("Luisa", "luisa123", 2);
+        $cinta1 = new CintaVideo("Los cazafantasmas 1", 3.5, 107);
+
+        $cliente->alquilar($cinta1);
+
+        $this->expectException(SoporteYaAlquiladoException::class);
+        $cliente->alquilar($cinta1);
     }
 }

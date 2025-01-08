@@ -1,5 +1,0 @@
-[2024-12-10T13:07:34.558445+01:00] HolaMonolog.WARNING: La hora proporcionada (-10) no es válida. Debe estar entre 0 y 24. [] {"file":"C:\\xampp\\htdocs\\videoclub\\logs\\HolaMonolog.php","line":43,"class":"HolaMonolog","callType":"->","function":"setHora"}
-[2024-12-10T13:07:34.560017+01:00] HolaMonolog.INFO: Saludando:  ¡Buenos dias! [] {"file":"C:\\xampp\\htdocs\\videoclub\\logs\\HolaMonolog.php","line":53,"class":"HolaMonolog","callType":"->","function":"saludar"}
-[2024-12-10T13:07:34.560332+01:00] HolaMonolog.INFO: Despidiéndose: ¡Hasta luego! [] {"file":"C:\\xampp\\htdocs\\videoclub\\logs\\HolaMonolog.php","line":57,"class":"HolaMonolog","callType":"->","function":"despedir"}
-[2024-12-10T13:10:42.885183+01:00] HolaMonolog.INFO: Saludando:  ¡Buenos dias! [] {"file":"C:\\xampp\\htdocs\\videoclub\\logs\\HolaMonolog.php","line":53,"class":"HolaMonolog","callType":"->","function":"saludar"}
-[2024-12-10T13:10:42.886407+01:00] HolaMonolog.INFO: Despidiéndose: ¡Hasta luego! [] {"file":"C:\\xampp\\htdocs\\videoclub\\logs\\HolaMonolog.php","line":57,"class":"HolaMonolog","callType":"->","function":"despedir"}

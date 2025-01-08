@@ -14,12 +14,17 @@ use Videoclub\Excepciones\SoporteYaAlquiladoException;
 use Videoclub\Excepciones\CupoSuperadoException;
 use Videoclub\Excepciones\SoporteNoEncontradoException;
 
+use Monolog\Logger;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\StreamHandler;
+
 class Videoclub {
     //---- ATRIBUTOS ----
     private array $productos = [];
     private int $numProductos = 0;
     private array $socios = [];
     private int $numSocios = 0;
+    private Logger $miLog;
 
     public int $numProductosAlquilados = 0; // Count de productos alquilados    / alquilados = true 
     public int $numTotalAlquileres = 0; // Count de productos por alquilar      / alquilados = false 
@@ -28,7 +33,13 @@ class Videoclub {
     //---- CONSTRUCTOR ----
     public function __construct(
         private string $nombre,
+        string $canal = "VideoclubLogger"
     ) {
+        $this->miLog = new Logger($canal);
+
+        // Manejador que escribe en un archivo
+        $this->miLog->pushHandler(new RotatingFileHandler("../logs/videoclub.log", 0, Logger::DEBUG));
+
     }
 
     //---- GETTERS Y SETTERS ----
